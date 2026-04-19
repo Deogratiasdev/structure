@@ -26,6 +26,12 @@
     const scrollToTopMobile = document.getElementById('scrollToTopMobile');
     const scrollToBottomMobile = document.getElementById('scrollToBottomMobile');
     const navLinks = document.querySelectorAll('.nav-link');
+    const navReadChecks = document.querySelectorAll('.nav-read-check');
+    const progressText = document.getElementById('progressText');
+    const resetProgress = document.getElementById('resetProgress');
+    const navSearch = document.getElementById('navSearch');
+    const navList = document.getElementById('navList');
+    const navItems = document.querySelectorAll('.nav-item[data-search]');
 
     // ========================================
     // Mobile Menu Functions
@@ -437,6 +443,108 @@
     }
 
     // ========================================
+    // ========================================
+    // Reading Progress Functions
+    // ========================================
+    const READ_PROGRESS_KEY = 'struct-c-read-progress';
+    
+    function getReadSections() {
+        const stored = localStorage.getItem(READ_PROGRESS_KEY);
+        return stored ? JSON.parse(stored) : [];
+    }
+    
+    function saveReadSection(sectionId) {
+        const readSections = getReadSections();
+        if (!readSections.includes(sectionId)) {
+            readSections.push(sectionId);
+            localStorage.setItem(READ_PROGRESS_KEY, JSON.stringify(readSections));
+        }
+        updateProgressDisplay();
+    }
+    
+    function removeReadSection(sectionId) {
+        let readSections = getReadSections();
+        readSections = readSections.filter(id => id !== sectionId);
+        localStorage.setItem(READ_PROGRESS_KEY, JSON.stringify(readSections));
+        updateProgressDisplay();
+    }
+    
+    function updateProgressDisplay() {
+        if (!progressText) return;
+        const readSections = getReadSections();
+        const total = navReadChecks.length;
+        const read = readSections.length;
+        progressText.textContent = `${read}/${total}`;
+    }
+    
+    function resetAllProgress() {
+        localStorage.removeItem(READ_PROGRESS_KEY);
+        navReadChecks.forEach(checkbox => {
+            checkbox.checked = false;
+        });
+        updateProgressDisplay();
+    }
+    
+    function initReadingProgress() {
+        const readSections = getReadSections();
+        
+        navReadChecks.forEach(checkbox => {
+            const sectionId = checkbox.getAttribute('data-section');
+            if (readSections.includes(sectionId)) {
+                checkbox.checked = true;
+            }
+            
+            checkbox.addEventListener('change', () => {
+                const sectionId = checkbox.getAttribute('data-section');
+                if (checkbox.checked) {
+                    saveReadSection(sectionId);
+                } else {
+                    removeReadSection(sectionId);
+                }
+            });
+        });
+        
+        if (resetProgress) {
+            resetProgress.addEventListener('click', () => {
+                if (confirm('Réinitialiser toute la progression ?')) {
+                    resetAllProgress();
+                }
+            });
+        }
+        
+        updateProgressDisplay();
+    }
+
+    // ========================================
+    // Navigation Search Function
+    // ========================================
+    function initNavSearch() {
+        if (!navSearch) return;
+        
+        navSearch.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            
+            navItems.forEach(item => {
+                const searchTerms = item.getAttribute('data-search') || '';
+                const text = item.textContent.toLowerCase();
+                
+                if (query === '' || searchTerms.includes(query) || text.includes(query)) {
+                    item.classList.remove('hidden');
+                } else {
+                    item.classList.add('hidden');
+                }
+            });
+        });
+        
+        // Clear search on Escape key
+        navSearch.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                navSearch.value = '';
+                navItems.forEach(item => item.classList.remove('hidden'));
+            }
+        });
+    }
+
     // Initialize
     // ========================================
     function init() {
@@ -537,6 +645,12 @@
 
         // Initialize checklist
         initChecklist();
+        
+        // Initialize reading progress
+        initReadingProgress();
+        
+        // Initialize navigation search
+        initNavSearch();
         
         // Syntax highlighting
         highlightCCode();

@@ -79,6 +79,12 @@
     <nav class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <h2><i class="fas fa-book"></i> Contenu</h2>
+            <div class="sidebar-progress">
+                <span id="progressText">0/10</span>
+                <button id="resetProgress" class="reset-btn" title="Réinitialiser la progression">
+                    <i class="fas fa-rotate-left"></i>
+                </button>
+            </div>
             <div class="sidebar-scroll-buttons">
                 <button id="scrollToTopSidebar" class="sidebar-scroll-btn" aria-label="Aller en haut">
                     <i class="fas fa-arrow-up"></i>
@@ -88,18 +94,31 @@
                 </button>
             </div>
         </div>
-        <ul class="nav-list">
-            <li class="nav-item">
-                <a href="#section1" class="nav-link">
-                    <span class="nav-num">1</span>
-                    <span class="nav-text">Mémoire & Adresses</span>
-                </a>
+        
+        <!-- Barre de recherche -->
+        <div class="sidebar-search">
+            <i class="fas fa-search"></i>
+            <input type="text" id="navSearch" placeholder="Rechercher..." autocomplete="off">
+        </div>
+        
+        <ul class="nav-list" id="navList">
+            <li class="nav-item" data-search="mémoire adresses">
+                <label class="nav-link-label">
+                    <input type="checkbox" class="nav-read-check" data-section="section1">
+                    <a href="#section1" class="nav-link">
+                        <span class="nav-num">1</span>
+                        <span class="nav-text">Mémoire & Adresses</span>
+                    </a>
+                </label>
             </li>
-            <li class="nav-item">
-                <a href="#section2" class="nav-link">
-                    <span class="nav-num">2</span>
-                    <span class="nav-text">Les Pointeurs</span>
-                </a>
+            <li class="nav-item" data-search="pointeurs">
+                <label class="nav-link-label">
+                    <input type="checkbox" class="nav-read-check" data-section="section2">
+                    <a href="#section2" class="nav-link">
+                        <span class="nav-num">2</span>
+                        <span class="nav-text">Les Pointeurs</span>
+                    </a>
+                </label>
                 <ul class="nav-sub-list">
                     <li><a href="#s2-concept" class="nav-sub-link">Concept</a></li>
                     <li><a href="#s2-syntax" class="nav-sub-link">Syntaxe</a></li>
@@ -108,11 +127,14 @@
                     <li><a href="#s2-exercise" class="nav-sub-link">Exercice</a></li>
                 </ul>
             </li>
-            <li class="nav-item">
-                <a href="#section3" class="nav-link">
-                    <span class="nav-num">3</span>
-                    <span class="nav-text">Manipulation Pointeurs</span>
-                </a>
+            <li class="nav-item" data-search="manipulation pointeurs arithmétique">
+                <label class="nav-link-label">
+                    <input type="checkbox" class="nav-read-check" data-section="section3">
+                    <a href="#section3" class="nav-link">
+                        <span class="nav-num">3</span>
+                        <span class="nav-text">Manipulation Pointeurs</span>
+                    </a>
+                </label>
                 <ul class="nav-sub-list">
                     <li><a href="#s3-arithmetic" class="nav-sub-link">Arithmétique</a></li>
                     <li><a href="#s3-array-ptr" class="nav-sub-link">Tableau & pointeur</a></li>
@@ -121,11 +143,14 @@
                     <li><a href="#s3-exercise" class="nav-sub-link">Exercice</a></li>
                 </ul>
             </li>
-            <li class="nav-item">
-                <a href="#section4" class="nav-link">
-                    <span class="nav-num">4</span>
-                    <span class="nav-text">malloc & calloc</span>
-                </a>
+            <li class="nav-item" data-search="malloc calloc realloc free mémoire dynamique">
+                <label class="nav-link-label">
+                    <input type="checkbox" class="nav-read-check" data-section="section4">
+                    <a href="#section4" class="nav-link">
+                        <span class="nav-num">4</span>
+                        <span class="nav-text">malloc & calloc</span>
+                    </a>
+                </label>
                 <ul class="nav-sub-list">
                     <li><a href="#s4-malloc" class="nav-sub-link">malloc</a></li>
                     <li><a href="#s4-calloc" class="nav-sub-link">calloc</a></li>
@@ -134,22 +159,28 @@
                     <li><a href="#s4-exercise" class="nav-sub-link">Exercice</a></li>
                 </ul>
             </li>
-            <li class="nav-item">
-                <a href="#section5" class="nav-link">
-                    <span class="nav-num">5</span>
-                    <span class="nav-text">Tableaux Dynamiques</span>
-                </a>
+            <li class="nav-item" data-search="tableaux dynamiques allocation">
+                <label class="nav-link-label">
+                    <input type="checkbox" class="nav-read-check" data-section="section5">
+                    <a href="#section5" class="nav-link">
+                        <span class="nav-num">5</span>
+                        <span class="nav-text">Tableaux Dynamiques</span>
+                    </a>
+                </label>
                 <ul class="nav-sub-list">
                     <li><a href="#s5-concept" class="nav-sub-link">Concept</a></li>
                     <li><a href="#s5-operations" class="nav-sub-link">Opérations</a></li>
                     <li><a href="#s5-exercise" class="nav-sub-link">Exercice</a></li>
                 </ul>
             </li>
-            <li class="nav-item">
-                <a href="#section6" class="nav-link">
-                    <span class="nav-num">6</span>
-                    <span class="nav-text">Listes Chaînées</span>
-                </a>
+            <li class="nav-item" data-search="listes chaînées linked list nœud">
+                <label class="nav-link-label">
+                    <input type="checkbox" class="nav-read-check" data-section="section6">
+                    <a href="#section6" class="nav-link">
+                        <span class="nav-num">6</span>
+                        <span class="nav-text">Listes Chaînées</span>
+                    </a>
+                </label>
                 <ul class="nav-sub-list">
                     <li><a href="#s6-concept" class="nav-sub-link">Concept</a></li>
                     <li><a href="#s6-node" class="nav-sub-link">Définition nœud</a></li>
@@ -158,11 +189,14 @@
                     <li><a href="#s6-exercise" class="nav-sub-link">Exercice</a></li>
                 </ul>
             </li>
-            <li class="nav-item">
-                <a href="#section7" class="nav-link">
-                    <span class="nav-num">7</span>
-                    <span class="nav-text">Piles (Stack)</span>
-                </a>
+            <li class="nav-item" data-search="piles stack lifo">
+                <label class="nav-link-label">
+                    <input type="checkbox" class="nav-read-check" data-section="section7">
+                    <a href="#section7" class="nav-link">
+                        <span class="nav-num">7</span>
+                        <span class="nav-text">Piles (Stack)</span>
+                    </a>
+                </label>
                 <ul class="nav-sub-list">
                     <li><a href="#s7-concept" class="nav-sub-link">Concept LIFO</a></li>
                     <li><a href="#s7-operations" class="nav-sub-link">Opérations</a></li>
@@ -170,11 +204,14 @@
                     <li><a href="#s7-exercise" class="nav-sub-link">Exercice</a></li>
                 </ul>
             </li>
-            <li class="nav-item">
-                <a href="#section8" class="nav-link">
-                    <span class="nav-num">8</span>
-                    <span class="nav-text">Files (Queue)</span>
-                </a>
+            <li class="nav-item" data-search="files queue fifo">
+                <label class="nav-link-label">
+                    <input type="checkbox" class="nav-read-check" data-section="section8">
+                    <a href="#section8" class="nav-link">
+                        <span class="nav-num">8</span>
+                        <span class="nav-text">Files (Queue)</span>
+                    </a>
+                </label>
                 <ul class="nav-sub-list">
                     <li><a href="#s8-concept" class="nav-sub-link">Concept FIFO</a></li>
                     <li><a href="#s8-operations" class="nav-sub-link">Opérations</a></li>
@@ -182,11 +219,14 @@
                     <li><a href="#s8-exercise" class="nav-sub-link">Exercice</a></li>
                 </ul>
             </li>
-            <li class="nav-item">
-                <a href="#section9" class="nav-link">
-                    <span class="nav-num">9</span>
-                    <span class="nav-text">Arbres Binaires</span>
-                </a>
+            <li class="nav-item" data-search="arbres binaires binary tree bst abr">
+                <label class="nav-link-label">
+                    <input type="checkbox" class="nav-read-check" data-section="section9">
+                    <a href="#section9" class="nav-link">
+                        <span class="nav-num">9</span>
+                        <span class="nav-text">Arbres Binaires</span>
+                    </a>
+                </label>
                 <ul class="nav-sub-list">
                     <li><a href="#s9-concept" class="nav-sub-link">Concept</a></li>
                     <li><a href="#s9-terminology" class="nav-sub-link">Terminologie</a></li>
@@ -197,11 +237,14 @@
                     <li><a href="#s9-exercise" class="nav-sub-link">Exercice</a></li>
                 </ul>
             </li>
-            <li class="nav-item">
-                <a href="#section10" class="nav-link">
-                    <span class="nav-num">10</span>
-                    <span class="nav-text">Exercices Finaux</span>
-                </a>
+            <li class="nav-item" data-search="exercices finaux pratique">
+                <label class="nav-link-label">
+                    <input type="checkbox" class="nav-read-check" data-section="section10">
+                    <a href="#section10" class="nav-link">
+                        <span class="nav-num">10</span>
+                        <span class="nav-text">Exercices Finaux</span>
+                    </a>
+                </label>
                 <ul class="nav-sub-list">
                     <li><a href="#s10-ex-a" class="nav-sub-link">Exercice A - Pile</a></li>
                     <li><a href="#s10-ex-b" class="nav-sub-link">Exercice B - File</a></li>
