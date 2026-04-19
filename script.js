@@ -16,8 +16,13 @@
     const themeToggle = document.getElementById('themeToggle');
     const themeIcon = document.getElementById('themeIcon');
     const themeLabel = document.getElementById('themeLabel');
+    const themeDropdown = document.querySelector('.theme-dropdown');
+    const themeDropdownMenu = document.getElementById('themeDropdownMenu');
+    const themeOptions = document.querySelectorAll('.theme-option');
     const scrollToTop = document.getElementById('scrollToTop');
     const scrollToBottom = document.getElementById('scrollToBottom');
+    const scrollToTopSidebar = document.getElementById('scrollToTopSidebar');
+    const scrollToBottomSidebar = document.getElementById('scrollToBottomSidebar');
     const scrollToTopMobile = document.getElementById('scrollToTopMobile');
     const scrollToBottomMobile = document.getElementById('scrollToBottomMobile');
     const navLinks = document.querySelectorAll('.nav-link');
@@ -81,6 +86,15 @@
         return 'light';
     }
 
+    function getAppliedTheme() {
+        const applied = document.documentElement.getAttribute('data-theme');
+        const mode = document.body.getAttribute('data-theme-mode') || getStoredTheme() || 'system';
+        if (mode === 'system') {
+            return getSystemTheme();
+        }
+        return mode;
+    }
+
     function setTheme(theme) {
         const actualTheme = theme === 'system' ? getSystemTheme() : theme;
         document.body.setAttribute('data-theme', actualTheme);
@@ -103,14 +117,29 @@
             themeIcon.classList.add('fa-moon');
             if (themeLabel) themeLabel.textContent = 'Clair';
         }
+
+        // Update active state in dropdown
+        if (themeOptions) {
+            themeOptions.forEach(option => {
+                option.classList.remove('active');
+                if (option.getAttribute('data-theme') === theme) {
+                    option.classList.add('active');
+                }
+            });
+        }
     }
 
     function toggleTheme() {
-        const current = document.body.getAttribute('data-theme-mode') || getStoredTheme() || 'light';
-        const themes = ['light', 'dark', 'system'];
-        const currentIndex = themes.indexOf(current);
-        const nextIndex = (currentIndex + 1) % themes.length;
-        setTheme(themes[nextIndex]);
+        if (themeDropdown) {
+            themeDropdown.classList.toggle('open');
+        }
+    }
+
+    function selectTheme(theme) {
+        setTheme(theme);
+        if (themeDropdown) {
+            themeDropdown.classList.remove('open');
+        }
     }
 
     // ========================================
@@ -432,6 +461,22 @@
             themeToggle.addEventListener('click', toggleTheme);
         }
 
+        if (themeOptions) {
+            themeOptions.forEach(option => {
+                option.addEventListener('click', () => {
+                    const theme = option.getAttribute('data-theme');
+                    selectTheme(theme);
+                });
+            });
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (themeDropdown && !themeDropdown.contains(e.target)) {
+                themeDropdown.classList.remove('open');
+            }
+        });
+
         // Listen for system theme changes
         if (window.matchMedia) {
             const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -463,6 +508,18 @@
 
         if (scrollToBottomMobile) {
             scrollToBottomMobile.addEventListener('click', () => {
+                window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+            });
+        }
+
+        if (scrollToTopSidebar) {
+            scrollToTopSidebar.addEventListener('click', () => {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+        }
+
+        if (scrollToBottomSidebar) {
+            scrollToBottomSidebar.addEventListener('click', () => {
                 window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
             });
         }

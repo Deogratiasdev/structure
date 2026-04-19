@@ -14,6 +14,21 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     
     <link rel="stylesheet" href="styles.css">
+    <script>
+        (function() {
+            const THEME_KEY = 'struct-c-theme';
+            const stored = localStorage.getItem(THEME_KEY);
+            let theme = 'light';
+            if (stored === 'system' || !stored) {
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    theme = 'dark';
+                }
+            } else if (stored === 'dark') {
+                theme = 'dark';
+            }
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
 </head>
 <body data-theme="light">
     <!-- Top Bar -->
@@ -24,12 +39,6 @@
                 <span>Structures de Données</span>
             </h1>
         </div>
-        <div class="topbar-center">
-            <button class="menu-toggle" id="menuToggle" aria-label="Ouvrir le menu">
-                <i class="fas fa-bars"></i>
-                <span class="menu-toggle-text">Navigation</span>
-            </button>
-        </div>
         <div class="topbar-right">
             <span class="author-top">HOUNNOU Deo-gratias</span>
             <button id="scrollToTop" class="scroll-btn" aria-label="Aller en haut">
@@ -38,10 +47,31 @@
             <button id="scrollToBottom" class="scroll-btn" aria-label="Aller en bas">
                 <i class="fas fa-arrow-down"></i>
             </button>
-            <button id="themeToggle" class="theme-toggle" aria-label="Changer de thème">
-                <i id="themeIcon" class="fas fa-moon"></i>
-                <span id="themeLabel" class="theme-label">Sombre</span>
+            <button id="menuToggle" class="menu-toggle" aria-label="Ouvrir le menu">
+                <i class="fas fa-bars"></i>
+                <span class="menu-toggle-text">Navigation</span>
             </button>
+            <div class="theme-dropdown">
+                <button id="themeToggle" class="theme-toggle" aria-label="Changer de thème">
+                    <i id="themeIcon" class="fas fa-moon"></i>
+                    <span id="themeLabel" class="theme-label">Sombre</span>
+                    <i class="fas fa-chevron-down theme-dropdown-icon"></i>
+                </button>
+                <div class="theme-dropdown-menu" id="themeDropdownMenu">
+                    <button class="theme-option" data-theme="light">
+                        <i class="fas fa-sun"></i>
+                        <span>Clair</span>
+                    </button>
+                    <button class="theme-option" data-theme="dark">
+                        <i class="fas fa-moon"></i>
+                        <span>Sombre</span>
+                    </button>
+                    <button class="theme-option" data-theme="system">
+                        <i class="fas fa-desktop"></i>
+                        <span>Système</span>
+                    </button>
+                </div>
+            </div>
         </div>
     </header>
 
@@ -49,6 +79,14 @@
     <nav class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <h2><i class="fas fa-book"></i> Contenu</h2>
+            <div class="sidebar-scroll-buttons">
+                <button id="scrollToTopSidebar" class="sidebar-scroll-btn" aria-label="Aller en haut">
+                    <i class="fas fa-arrow-up"></i>
+                </button>
+                <button id="scrollToBottomSidebar" class="sidebar-scroll-btn" aria-label="Aller en bas">
+                    <i class="fas fa-arrow-down"></i>
+                </button>
+            </div>
         </div>
         <ul class="nav-list">
             <li class="nav-item">
@@ -2162,20 +2200,6 @@ Aucun complexe de module 7 trouvé.</pre>
             <p class="author-footer">HOUNNOU Deo-gratias ; <a href="https://deo-gratias.pages.dev" target="_blank">deo-gratias.pages.dev</a></p>
         </footer>
     </main>
-
-    <!-- Mobile Bottom Navigation -->
-    <nav class="mobile-bottom-nav" id="mobileBottomNav">
-        <button class="mobile-nav-btn" id="scrollToTopMobile" aria-label="Aller en haut">
-            <i class="fas fa-arrow-up"></i>
-        </button>
-        <button class="mobile-nav-btn" id="menuToggleBottom" aria-label="Ouvrir le menu">
-            <i class="fas fa-bars"></i>
-            <span class="mobile-nav-text">Navigation</span>
-        </button>
-        <button class="mobile-nav-btn" id="scrollToBottomMobile" aria-label="Aller en bas">
-            <i class="fas fa-arrow-down"></i>
-        </button>
-    </nav>
 
     <script src="script.js"></script>
 </body>
